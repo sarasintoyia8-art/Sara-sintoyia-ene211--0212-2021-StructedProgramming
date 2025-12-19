@@ -1,27 +1,50 @@
 #include <stdio.h>
 
+
+void incrementByValue(int num);
+void incrementByReference(int *ptr);
+
 int main() {
+    int number = 5;
 
-    int count = 10;
-
-    int *pCount;
-    pCount = &count;
+    printf("Initial value of number: %d\n\n", number);
 
 
-    printf("Initial value of count: %d\n", count);
-    printf("Address stored in pCount: %p\n", (void*)pCount);
-    printf("Value accessed via pCount before modification: %d\n\n", *pCount);
+    printf("Calling incrementByValue()...\n");
+    incrementByValue(number);
+    printf("After incrementByValue: number = %d\n", number);
+    printf("(The original number remains unchanged because we passed a copy)\n\n");
 
 
-    *pCount = 25;
+    printf("Calling incrementByReference()...\n");
+    incrementByReference(&number);
+    printf("After incrementByReference: number = %d\n", number);
+    printf("(The original number changed because we passed its address)\n\n");
 
 
-    printf("After modification using pointer:\n");
-    printf("Updated value of count: %d\n", count);
-    printf("Value accessed via pCount after modification: %d\n", *pCount);
-    printf("\nAddress of count: %p\n", (void*)&count);
-    printf("Address stored in pCount: %p\n", (void*)pCount);
-    printf("Are they the same? %s\n", (&count == pCount) ? "Yes" : "No");
+    printf("Memory address of number in main(): %p\n", (void*)&number);
 
     return 0;
+}
+void incrementByValue(int num) {
+    printf("  Inside incrementByValue():\n");
+    printf("  Received value: %d\n", num);
+    printf("  Memory address of parameter 'num': %p\n", (void*)&num);
+
+    num = num + 1;
+
+    printf("  After increment: %d\n", num);
+    printf("  (This change only affects the local copy)\n");
+}
+
+
+void incrementByReference(int *ptr) {
+    printf("  Inside incrementByReference():\n");
+    printf("  Received address: %p\n", (void*)ptr);
+    printf("  Value at that address: %d\n", *ptr);
+
+    *ptr = *ptr + 1;
+
+    printf("  After increment: value at address is now %d\n", *ptr);
+    printf("  (This change affects the original variable in main())\n");
 }
